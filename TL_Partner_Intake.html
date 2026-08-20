@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teamleader Partner Intake</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a1a;background:#f5f5f3;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem}
+.card{background:#fff;border-radius:16px;border:0.5px solid #e0e0e0;padding:2.5rem;max-width:620px;width:100%}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
+.logo-mark{width:32px;height:32px;background:#1A3C6B;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-mark span{color:#fff;font-size:14px;font-weight:700}
+.logo-name{font-size:15px;font-weight:500;color:#1A3C6B}
+.step{display:none}.step.active{display:block}
+.step-header{margin-bottom:1.5rem}
+.step-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:#999;margin-bottom:.375rem}
+.step-title{font-size:22px;font-weight:500;color:#1a1a1a;margin-bottom:.3rem}
+.step-sub{font-size:14px;color:#666;line-height:1.6}
+.progress{display:flex;gap:6px;margin-bottom:2rem}
+.prog-step{height:3px;flex:1;border-radius:2px;background:#e5e5e5}
+.prog-step.done{background:#1a1a1a}
+.prog-step.active{background:#888}
+.field{margin-bottom:1.25rem}
+.field label{display:block;font-size:13px;font-weight:500;color:#555;margin-bottom:.4rem}
+.field input,.field select,.field textarea{width:100%;border:0.5px solid #d0d0d0;border-radius:8px;padding:9px 12px;font-size:14px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#1A3C6B;box-shadow:0 0 0 3px rgba(26,60,107,.08)}
+.field textarea{resize:vertical;min-height:80px}
+.field .hint{font-size:12px;color:#aaa;margin-top:.375rem;line-height:1.5}
+.opt-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:.4rem}
+.opt{border:0.5px solid #d0d0d0;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;background:#fff;color:#1a1a1a;transition:all .12s;user-select:none}
+.opt *{pointer-events:none}
+.opt:hover{background:#f5f5f3}
+.opt.sel{border-color:#1A3C6B;border-width:1.5px;font-weight:500;background:#EEF3FA}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.divider{border:none;border-top:0.5px solid #e5e5e5;margin:1.5rem 0}
+.btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:1.75rem;gap:12px}
+.btn{border:0.5px solid #d0d0d0;border-radius:8px;padding:10px 22px;font-size:14px;font-weight:500;cursor:pointer;background:#fff;color:#1a1a1a;font-family:inherit;transition:all .12s}
+.btn:hover{background:#f5f5f3}
+.btn.primary{background:#1A3C6B;color:#fff;border-color:#1A3C6B}
+.btn.primary:hover{background:#142f55}
+.btn.ghost{border-color:transparent;color:#888}
+.btn.ghost:hover{background:#f5f5f3}
+.btn.kickoff{width:100%;padding:14px 20px;font-size:15px;background:#1A3C6B;color:#fff;border-color:#1A3C6B;border-radius:12px;margin-bottom:.75rem;font-family:inherit;cursor:pointer;font-weight:500}
+.btn.kickoff:hover{background:#142f55}
+.opp-fields{display:none}
+.opp-fields.visible{display:block}
+.summary{background:#f5f5f3;border-radius:12px;padding:1.25rem;margin-bottom:1.25rem}
+.sum-row{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:0.5px solid #e5e5e5;font-size:13px;gap:1rem}
+.sum-row:last-child{border-bottom:none}
+.sum-label{color:#888;flex-shrink:0}
+.sum-val{color:#1a1a1a;text-align:right}
+.confirm-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.confirm-icon{font-size:26px;color:#1A7A4A}
+.confirm-title{font-size:20px;font-weight:500}
+.kickoff-box{border:0.5px solid #d0d0d0;border-radius:12px;padding:1.25rem;margin-bottom:1.25rem}
+.kickoff-lbl{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:#999;margin-bottom:.5rem}
+.kickoff-desc{font-size:13px;color:#666;line-height:1.6;margin-bottom:1rem}
+.access-note{background:#f5f5f3;border-radius:8px;padding:1rem;font-size:13px;color:#666;line-height:1.7}
+@media(max-width:500px){.row{grid-template-columns:1fr}.card{padding:1.5rem}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-mark"><span>TL</span></div>
+    <div class="logo-name">Partner Intake</div>
+  </div>
+
+  <div class="progress">
+    <div class="prog-step active" id="ps1"></div>
+    <div class="prog-step" id="ps2"></div>
+    <div class="prog-step" id="ps3"></div>
+  </div>
+
+  <!-- STAP 1 -->
+  <div class="step active" id="step1">
+    <div class="step-header">
+      <div class="step-label">Stap 1 van 3</div>
+      <div class="step-title">Wie ben je?</div>
+      <div class="step-sub">Vertel ons wie je bent, wat je doet en voor welke klanten je werkt.</div>
+    </div>
+
+    <div class="row">
+      <div class="field"><label>Voornaam</label><input type="text" id="fname" placeholder="Jan"></div>
+      <div class="field"><label>Achternaam</label><input type="text" id="lname" placeholder="de Vries"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>Bedrijfsnaam</label><input type="text" id="company" placeholder="Jouw bedrijf"></div>
+      <div class="field"><label>E-mailadres</label><input type="email" id="email" placeholder="jan@bedrijf.nl"></div>
+    </div>
+    <div class="field" style="max-width:50%;padding-right:6px"><label>Telefoonnummer</label><input type="tel" id="phone" placeholder="+31 6 12345678"></div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label>Hoe wil je starten?</label>
+      <div class="opt-group">
+        <div class="opt" data-g="partnertype" data-v="referral" onclick="pickType(this)" style="pointer-events:auto;cursor:pointer">
+          Referral Partner — leads doorsturen, €200 per deal, direct toegang
+        </div>
+        <div class="opt" data-g="partnertype" data-v="sales" onclick="pickType(this)" style="pointer-events:auto;cursor:pointer">
+          Sales Partner — leads aanbrengen, 25% commissie, kick-off met PM
+        </div>
+        <div class="opt" data-g="partnertype" data-v="service" onclick="pickType(this)" style="pointer-events:auto;cursor:pointer">
+          Service Partner — implementeren + leads, 25% + DFY + lifetime marge
+        </div>
+      </div>
+      <div class="note" id="type-note"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label>Wat doe je voor jouw klanten? <span style="font-weight:400;color:#aaa">meerdere keuzes mogelijk</span></label>
+      <div class="opt-group">
+        <div class="opt" data-g="activiteiten" data-v="leads" onclick="multi(this)">Leads aanbrengen & doorverwijzen</div>
+        <div class="opt" data-g="activiteiten" data-v="impl" onclick="multi(this)">Implementatie & onboarding</div>
+        <div class="opt" data-g="activiteiten" data-v="training" onclick="multi(this)">Trainingen geven</div>
+        <div class="opt" data-g="activiteiten" data-v="integraties" onclick="multi(this)">Integraties bouwen of configureren</div>
+        <div class="opt" data-g="activiteiten" data-v="beheer" onclick="multi(this)">Beheer & support na implementatie</div>
+        <div class="opt" data-g="activiteiten" data-v="optimalisatie" onclick="multi(this)">Optimalisatie van bestaande omgevingen</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>In welke sectoren zijn jouw klanten actief? <span style="font-weight:400;color:#aaa">meerdere keuzes mogelijk</span></label>
+      <div class="opt-group">
+        <div class="opt" data-g="sector" data-v="bouw" onclick="multi(this)">Bouw & installatie</div>
+        <div class="opt" data-g="sector" data-v="agency" onclick="multi(this)">Creatieve agencies</div>
+        <div class="opt" data-g="sector" data-v="dienst" onclick="multi(this)">Zakelijke dienstverlening</div>
+        <div class="opt" data-g="sector" data-v="ict" onclick="multi(this)">ICT & software</div>
+        <div class="opt" data-g="sector" data-v="generalist" onclick="multi(this)">Generalist — meerdere sectoren</div>
+        <div class="opt" data-g="sector" data-v="overig" onclick="multi(this)">Overig</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Ideale klant — omschrijf in één zin</label>
+      <textarea id="icp" placeholder="Bv. MKB-bedrijf van 5–20 medewerkers, eigenaar als beslisser, worstelt met projectoverzicht"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <div></div>
+      <button class="btn primary" onclick="toStep(2)">Volgende <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- STAP 2 -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-label">Stap 2 van 3</div>
+      <div class="step-title">Heb je al een concrete kans?</div>
+      <div class="step-sub">Laat ons weten of je al een prospect in gedachten hebt — zo maken we de kick-off zo nuttig mogelijk.</div>
+    </div>
+
+    <div class="field">
+      <label>Heb je al een concrete prospect of opportunity?</label>
+      <div class="opt-group">
+        <div class="opt" data-g="has_opp" data-v="ja" onclick="pickOpp(this,true)">Ja</div>
+        <div class="opt" data-g="has_opp" data-v="nee" onclick="pickOpp(this,false)">Nog niet</div>
+      </div>
+    </div>
+
+    <div class="opp-fields" id="opp-fields">
+      <div class="field">
+        <label>Naam bedrijf of prospect</label>
+        <input type="text" id="opp_naam" placeholder="Bv. Installatiebedrijf De Vries">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Sector</label>
+          <input type="text" id="opp_sector" placeholder="Bv. bouw, logistiek">
+        </div>
+        <div class="field">
+          <label>Aantal medewerkers</label>
+          <select id="opp_size">
+            <option value="">Kies...</option>
+            <option>1–5</option>
+            <option>6–15</option>
+            <option>16–25</option>
+            <option>25+</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Wat is het pijnpunt of de aanleiding?</label>
+        <textarea id="opp_pijn" placeholder="Bv. geen overzicht van openstaande offertes, projecten lopen uit budget"></textarea>
+      </div>
+      <div class="field">
+        <label>Waar staat het gesprek nu?</label>
+        <div class="opt-group">
+          <div class="opt" data-g="opp_fase" data-v="eerste" onclick="pick(this)">Eerste contact gelegd</div>
+          <div class="opt" data-g="opp_fase" data-v="gesprek" onclick="pick(this)">Gesprek gepland of geweest</div>
+          <div class="opt" data-g="opp_fase" data-v="demo" onclick="pick(this)">Demo gevraagd of ingepland</div>
+          <div class="opt" data-g="opp_fase" data-v="offerte" onclick="pick(this)">Offerte of beslissing in zicht</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:.5rem">
+      <label>Vragen of onderwerpen voor de kick-off?</label>
+      <textarea id="extra" placeholder="Bv. vragen over het commissiemodel, DFY-trajecten, samenwerking met Teamleader"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn ghost" onclick="toStep(1)"><i class="ti ti-arrow-left"></i> Terug</button>
+      <button class="btn primary" onclick="toStep(3)">Volgende <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- STAP 3 -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-label">Stap 3 van 3</div>
+      <div class="step-title">Hoe ga je Teamleader promoten?</div>
+      <div class="step-sub">Geen verplichtingen — fijn om te weten zodat we je direct goed kunnen ondersteunen.</div>
+    </div>
+
+    <div class="field">
+      <label>Wat zijn je ideeën om Teamleader onder de aandacht te brengen bij jouw klanten?</label>
+      <textarea id="marketing" placeholder="Vertel het ons in je eigen woorden — er zijn geen foute antwoorden"></textarea>
+      <div class="hint">Inspiratie: een pagina op je website, een mailing naar bestaande klanten, een post op LinkedIn, een event of webinar, of gewoon het gesprek aangaan bij bestaande klanten.</div>
+    </div>
+
+    <div class="field">
+      <label>Welke activiteit wil je als eerste oppakken? <span style="font-weight:400;color:#aaa">meerdere keuzes mogelijk</span></label>
+      <div class="opt-group">
+        <div class="opt" data-g="mkt_actie" data-v="landing" onclick="multi(this)">Landingspagina met referral-link</div>
+        <div class="opt" data-g="mkt_actie" data-v="mail" onclick="multi(this)">Mailing naar eigen database</div>
+        <div class="opt" data-g="mkt_actie" data-v="linkedin" onclick="multi(this)">LinkedIn-post of campagne</div>
+        <div class="opt" data-g="mkt_actie" data-v="event" onclick="multi(this)">Event of webinar</div>
+        <div class="opt" data-g="mkt_actie" data-v="klanten" onclick="multi(this)">Gesprek met bestaande klanten</div>
+        <div class="opt" data-g="mkt_actie" data-v="nog_niet" onclick="multi(this)">Weet ik nog niet</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn ghost" onclick="toStep(2)"><i class="ti ti-arrow-left"></i> Terug</button>
+      <button class="btn primary" onclick="submit()">Intake versturen <i class="ti ti-send"></i></button>
+    </div>
+  </div>
+
+  <!-- BEVESTIGING -->
+  <div class="step" id="step4">
+    <div class="confirm-header">
+      <div class="confirm-icon"><i class="ti ti-circle-check"></i></div>
+      <div class="confirm-title">Welkom als Teamleader partner</div>
+    </div>
+
+    <div class="access-note" style="margin-bottom:1rem;background:#E8F5EE;color:#1A7A4A">
+      <i class="ti ti-circle-check" style="margin-right:6px"></i>
+      Je bent geregistreerd. Je ontvangt direct een bevestigingsmail met toegang tot alle tools.
+    </div>
+
+    <div class="kickoff-box">
+      <div class="kickoff-lbl">Plan je kick-off — 30 minuten</div>
+      <div class="kickoff-desc">Maak direct een afspraak met je Partner Manager. We bespreken je eerste stappen, lopen de tools door en zetten concrete datums vast. De mail die je ontvangt bevat alvast alles om voor te bereiden.</div>
+      <button class="btn kickoff" onclick="window.open('https://go.teamleader.eu/meetings/michiel-linders?uuid=8a4208fd-0a10-4e7f-8392-cd21be79b386','_blank')">
+        <i class="ti ti-calendar"></i> Plan je kick-off
+      </button>
+      <div style="font-size:12px;color:#aaa">Je ontvangt een bevestiging per e-mail met de agenda en jouw ingevulde intake als voorbereiding.</div>
+    </div>
+
+    <div style="font-size:13px;font-weight:500;margin-bottom:.75rem;color:#888">Samenvatting van je intake</div>
+    <div class="summary" id="summary"></div>
+  </div>
+</div>
+
+<script>
+const state={fname:'',lname:'',company:'',email:'',phone:'',partnertype:'',icp:'',extra:'',marketing:'',opp_naam:'',opp_sector:'',opp_pijn:'',has_opp:'',opp_fase:'',kickoff:'',activiteiten:[],sector:[],mkt_actie:[]};
+
+const typeNotes={
+  referral:'Je ontvangt direct toegang na de intake — geen kick-off nodig. Jouw referral-link is meteen actief.',
+  sales:'Na de intake plan je een kick-off van 30 minuten. Je ontvangt toegang tot portal, demo-omgeving en Circle.',
+  service:'Na de intake plan je een kick-off van 30 minuten. Je ontvangt toegang tot alle tools en start met salestraining én productcertificering.'
+};
+function pickType(el){
+  let target=el;
+  while(target&&!target.dataset.v)target=target.parentElement;
+  if(!target)return;
+  document.querySelectorAll('.opt[data-g="partnertype"]').forEach(o=>o.classList.remove('sel'));
+  target.classList.add('sel');
+  state.partnertype=target.dataset.v;
+  const note=document.getElementById('type-note');
+  if(note)note.textContent=typeNotes[target.dataset.v]||'';
+}
+function pick(el){
+  const g=el.dataset.g;
+  document.querySelectorAll(`.opt[data-g="${g}"]`).forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  state[g]=el.dataset.v;
+}
+
+function multi(el){
+  const v=el.dataset.v,g=el.dataset.g;
+  el.classList.toggle('sel');
+  if(!Array.isArray(state[g]))state[g]=[];
+  if(el.classList.contains('sel')){if(!state[g].includes(v))state[g].push(v);}
+  else state[g]=state[g].filter(x=>x!==v);
+}
+
+function pickOpp(el,show){
+  pick(el);
+  document.getElementById('opp-fields').classList.toggle('visible',show);
+}
+
+function save(){
+  ['fname','lname','company','email','phone','icp','extra','marketing','opp_naam','opp_sector','opp_pijn'].forEach(id=>{
+    const el=document.getElementById(id);if(el)state[id]=el.value;
+  });
+  const sz=document.getElementById('opp_size');if(sz)state.opp_size=sz.value;
+}
+
+function toStep(n){
+  save();
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(`step${n}`).classList.add('active');
+  for(let i=1;i<=3;i++){
+    const ps=document.getElementById(`ps${i}`);if(!ps)continue;
+    ps.classList.remove('done','active');
+    if(i<n)ps.classList.add('done');
+    else if(i===n)ps.classList.add('active');
+  }
+  window.scrollTo(0,0);
+}
+
+const lm={
+  activiteiten:{leads:'Leads aanbrengen',impl:'Implementatie & onboarding',training:'Trainingen',integraties:'Integraties',beheer:'Beheer & support',optimalisatie:'Optimalisatie'},
+  sector:{bouw:'Bouw & installatie',agency:'Creatieve agencies',dienst:'Zakelijke dienstverlening',ict:'ICT & software',generalist:'Generalist',overig:'Overig'},
+  opp_fase:{eerste:'Eerste contact',gesprek:'Gesprek gepland/geweest',demo:'Demo gevraagd/ingepland',offerte:'Offerte/beslissing in zicht'},
+  mkt_actie:{landing:'Landingspagina',mail:'Mailing',linkedin:'LinkedIn',event:'Event/webinar',klanten:'Gesprek bestaande klanten',nog_niet:'Weet nog niet'},
+};
+
+function lbl(key,val){
+  if(Array.isArray(val))return val.map(v=>lm[key]?.[v]||v).join(', ')||'—';
+  return lm[key]?.[val]||val||'—';
+}
+
+function submit(){
+  save();
+  const rows=[
+    ['Naam',`${state.fname} ${state.lname}`.trim()||'—'],
+    ['Partnertype',{referral:'Referral Partner',sales:'Sales Partner',service:'Service Partner'}[state.partnertype]||'—'],
+    ['Bedrijf',state.company||'—'],
+    ['E-mail',state.email||'—'],
+    ['Telefoon',state.phone||'—'],
+    ['Activiteiten',lbl('activiteiten',state.activiteiten)],
+    ['Sectoren',lbl('sector',state.sector)],
+    ['Ideale klant',state.icp||'—'],
+    ['Concrete opportunity',state.has_opp==='ja'?'Ja':'Nog niet'],
+  ];
+  if(state.has_opp==='ja'){
+    rows.push(['Prospect',state.opp_naam||'—'],['Sector prospect',state.opp_sector||'—'],['Omvang',state.opp_size||'—'],['Pijnpunt',state.opp_pijn||'—'],['Fase',lbl('opp_fase',state.opp_fase)]);
+  }
+  rows.push(['Marketing ideeën',state.marketing||'—'],['Eerste actie',lbl('mkt_actie',state.mkt_actie)],['Kick-off vragen',state.extra||'—']);
+  document.getElementById('summary').innerHTML=rows.map(([l,v])=>`<div class="sum-row"><span class="sum-label">${l}</span><span class="sum-val">${v}</span></div>`).join('');
+  toStep(4);
+
+  // Show correct confirmation box based on partnertype
+  const isReferral = state.partnertype === 'referral';
+  document.getElementById('kickoff-box').style.display = isReferral ? 'none' : 'block';
+  document.getElementById('referral-box').style.display = isReferral ? 'block' : 'none';
+  document.getElementById('confirm-referral').style.display = isReferral ? 'block' : 'none';
+  document.getElementById('confirm-kickoff').style.display = isReferral ? 'none' : 'block';
+}
+</script>
+</body>
+</html>
